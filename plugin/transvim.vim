@@ -22,10 +22,17 @@
 "**            PURPOSE.                                                     **
 "**            See the GNU General Public License for more details.         **
 "**                                                                         **
-"** Version:   1.0.0                                                        **
-"**            tested under Linux and Win32, VIM 6.1                        **
+"** Version:   1.0.1                                                        **
+"**            tested under Linux and Win32, VIM and GVIM 6.1               **
 "**                                                                         **
-"** History:   1.0.0  28. Nov. 2002                                         **
+"** History:   1.0.1  8. Dez. 2002                                          **
+"**              bug-fix:                                                   **
+"**                Removed mapping of <ESC> to close view of results. In    **
+"**                console version of VIM this mapping leaded to close view **
+"**                after pressing any cursor key - not only after <ESC>.    **
+"**                Now use 'q' instead of <ESC>.                            **
+"**                                                                         **
+"**            1.0.0  28. Nov. 2002                                         **
 "**              same as 0.1.0, but first release                           **
 "**                                                                         **
 "**            0.1.0  27. Nov. 2002:                                        ** 
@@ -39,8 +46,8 @@
 "**   selected text or to be asked for a word.                              **
 "**                                                                         **
 "**   Search-results are viewed in the same window in which searching was   **
-"**   started. To close a view, press <ESC> or 'q' - TransVim will then     **
-"**   switch back to the buffer comming from.                               **
+"**   started. To close a view, press 'q' - TransVim will then switch       **
+"**   back to the buffer comming from.                                      **
 "**                                                                         **
 "**   There are several possibilities to start a translation:               **
 "**     1) move cursor over word to be translated and press <Leader>tr      **
@@ -348,7 +355,7 @@ function s:Translate(str)
     setlocal nowrap
     iabclear <buffer>
 
-    let s:txt =         "Press <ESC> or 'q' to finish.\n\n"
+    let s:txt =         "Press 'q' to finish.\n\n"
     let s:txt = s:txt . "Translation of " . s:strng . ":\n\n"
     put! = s:txt
 
@@ -372,10 +379,9 @@ endfunction
 "**   set local/temporally key-mappings valid while viewing result          **
 "*****************************************************************************
 function s:SetLocalKeyMappings()
-                                         " use 'q' or <ESC> to close view-buffer
+                                         " use 'q' to close view-buffer
                                          " and switch to previously used buffer
-    nnoremap <buffer> <silent> q     :call <SID>trv_CloseViewBuffer()<cr>
-    nnoremap <buffer> <silent> <esc> :call <SID>trv_CloseViewBuffer()<cr>
+    nnoremap <buffer> <silent> q :call <SID>trv_CloseViewBuffer()<cr>
 endfunction
 
 
